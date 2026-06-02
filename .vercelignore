@@ -1,0 +1,14 @@
+.git
+.gitignore
+README.md
+DESIGN.md
+LICENSE
+node_modules
+.env.local
+.env.*.local
+*.log
+.DS_Store
+docker-compose.yml
+Dockerfile*
+start.sh
+.vscode

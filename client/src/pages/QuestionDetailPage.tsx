@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
@@ -12,13 +12,12 @@ import AnswerForm from '../components/answers/AnswerForm';
 import { AnswerSkeleton, EmptyState, ErrorState } from '../components/common';
 import QuestionCard from '../components/questions/QuestionCard';
 import { useAuthStore } from '../store/authStore';
-import { useUiStore } from '../store/uiStore';
 import toast from 'react-hot-toast';
 
 const QuestionDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const { user, isAuthenticated } = useAuthStore();
-  const { openAuthModal } = useUiStore();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError, refetch } = useQuery({
@@ -242,9 +241,9 @@ const QuestionDetailPage = () => {
               ) : (
                 <div className="bg-surface-container-low rounded-xl border border-outline-variant/30 p-6 text-center">
                   <p className="text-on-surface-variant mb-4">
-                    <button onClick={() => openAuthModal('login')} className="text-primary-container font-semibold hover:underline">Log in</button>
+                    <button onClick={() => navigate('/login')} className="text-primary-container font-semibold hover:underline">Log in</button>
                     {' '}or{' '}
-                    <button onClick={() => openAuthModal('signup')} className="text-primary-container font-semibold hover:underline">create an account</button>
+                    <button onClick={() => navigate('/login')} className="text-primary-container font-semibold hover:underline">create an account</button>
                     {' '}to post an answer.
                   </p>
                 </div>

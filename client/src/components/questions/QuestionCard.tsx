@@ -4,10 +4,16 @@ import { Eye, ThumbsUp, MessageCircle, Clock, Search } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import type { Question } from '../../types';
 
+interface HighlightPart {
+  text: string;
+  highlight: boolean;
+}
+
 interface QuestionCardProps {
   question: Question;
   variant?: 'default' | 'compact' | 'featured';
   showSearchBadge?: boolean;
+  highlightedTitleParts?: HighlightPart[];
 }
 
 const getCategoryColor = (color?: string) => {
@@ -24,7 +30,12 @@ const formatCount = (n: number): string => {
   return String(n);
 };
 
-const QuestionCard = ({ question, variant = 'default', showSearchBadge = false }: QuestionCardProps) => {
+const QuestionCard = ({
+  question,
+  variant = 'default',
+  showSearchBadge = false,
+  highlightedTitleParts,
+}: QuestionCardProps) => {
   const isCompact = variant === 'compact';
 
   return (
@@ -74,7 +85,18 @@ const QuestionCard = ({ question, variant = 'default', showSearchBadge = false }
               isCompact ? 'text-body-md' : 'text-body-lg'
             }`}
           >
-            {question.title}
+            {highlightedTitleParts ? (
+              highlightedTitleParts.map((part, index) => (
+                <span
+                  key={index}
+                  className={part.highlight ? 'bg-yellow-100 text-on-surface font-semibold' : undefined}
+                >
+                  {part.text}
+                </span>
+              ))
+            ) : (
+              question.title
+            )}
           </h3>
 
           {/* Tags */}

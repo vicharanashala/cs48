@@ -10,6 +10,36 @@ import { questionsApi } from '../services/questions.service';
 import toast from 'react-hot-toast';
 import { AlertCircle, Send } from 'lucide-react';
 
+const escapeRegex = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const getHighlightedTextParts = (text: string, query: string) => {
+  const normalized = query.trim();
+  if (!normalized) return undefined;
+
+  const tokens = Array.from(new Set(normalized.split(/\s+/).map((token) => escapeRegex(token).toLowerCase()))).filter(Boolean);
+  if (!tokens.length) return undefined;
+
+  const regex = new RegExp(`(${tokens.join('|')})`, 'gi');
+  const parts: Array<{ text: string; highlight: boolean }> = [];
+  let lastIndex = 0;
+
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ text: text.slice(lastIndex, match.index), highlight: false });
+    }
+
+    parts.push({ text: text.slice(match.index, match.index + match[0].length), highlight: true });
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push({ text: text.slice(lastIndex), highlight: false });
+  }
+
+  return parts.length > 0 ? parts : undefined;
+};
+
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -33,7 +63,7 @@ const SearchPage = () => {
 
   // Record search click when user selects a result
   const handleResultClick = (questionId: string) => {
-    questionsApi.recordSearchClick(questionId).catch(() => {});
+    questionsApi.recordSearchClick(questionId).catch(() => { });
   };
 
   const results = data?.data ?? [];
@@ -52,8 +82,8 @@ const SearchPage = () => {
             {isLoading || isFetching
               ? 'Searching...'
               : hasResults
-              ? `${results.length} results for "${query}"`
-              : `No results for "${query}"`}
+                ? `${results.length} results for "${query}"`
+                : `No results for "${query}"`}
           </h1>
         </div>
       )}
@@ -70,7 +100,10 @@ const SearchPage = () => {
         >
           {results.map((q) => (
             <div key={q._id} onClick={() => handleResultClick(q._id)}>
-              <QuestionCard question={q} />
+              <QuestionCard
+                question={q}
+                highlightedTitleParts={getHighlightedTextParts(q.title, query)}
+              />
             </div>
           ))}
         </motion.div>

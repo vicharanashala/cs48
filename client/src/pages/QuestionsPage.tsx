@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import QuestionCard from '../components/questions/QuestionCard';
@@ -9,7 +9,6 @@ import { categoriesApi } from '../services/categories.service';
 import type { SortOption } from '../types';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { useUiStore } from '../store/uiStore';
 import { Plus, SlidersHorizontal, Grid, List } from 'lucide-react';
 
 const SORT_OPTIONS: { value: SortOption; label: string; icon: string }[] = [
@@ -26,10 +25,11 @@ const QuestionsPage = () => {
   const [page, setPage] = useState(1);
 
   const { isAuthenticated } = useAuthStore();
-  const { openAuthModal } = useUiStore();
 
   const sort = (searchParams.get('sort') as SortOption) || 'trending';
   const category = searchParams.get('category') || undefined;
+
+  const navigate = useNavigate();
 
   const { data: catData } = useQuery({
     queryKey: ['categories'],
@@ -84,7 +84,7 @@ const QuestionsPage = () => {
               <Plus size={16} /> Ask Question
             </Link>
           ) : (
-            <button onClick={() => openAuthModal('login')} className="btn-primary text-sm py-2.5 px-5 flex items-center gap-2">
+            <button onClick={() => navigate('/login')} className="btn-primary text-sm py-2.5 px-5 flex items-center gap-2">
               <Plus size={16} /> Ask Question
             </button>
           )}
@@ -160,7 +160,7 @@ const QuestionsPage = () => {
               icon="help_outline"
               title="No questions found"
               description="Be the first to ask a question in this category."
-              action={{ label: 'Ask a Question', onClick: () => isAuthenticated ? window.location.href = '/questions/ask' : openAuthModal('login') }}
+              action={{ label: 'Ask a Question', onClick: () => isAuthenticated ? window.location.href = '/questions/ask' : navigate('/login') }}
             />
           ) : (
             <>

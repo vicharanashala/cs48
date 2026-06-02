@@ -3,7 +3,6 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Search, LogOut, User, Settings, ChevronDown } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
-import { useUiStore } from '../../store/uiStore';
 import { authApi } from '../../services/auth.service';
 
 const Navbar = () => {
@@ -11,7 +10,6 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuthStore();
-  const { openAuthModal } = useUiStore();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -145,7 +143,7 @@ const Navbar = () => {
               </div>
             ) : (
               <button
-                onClick={() => openAuthModal('login')}
+                onClick={() => navigate('/login')}
                 className="btn-primary text-sm py-2.5 px-6"
               >
                 Get Started

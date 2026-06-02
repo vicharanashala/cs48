@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, type Variants } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Plus, BookOpen } from 'lucide-react';
@@ -7,7 +7,6 @@ import QuestionCard from '../components/questions/QuestionCard';
 import { QuestionsGridSkeleton, SectionHeader, StatBadge } from '../components/common';
 import { questionsApi } from '../services/questions.service';
 import { adminApi } from '../services/admin.service';
-import { useUiStore } from '../store/uiStore';
 import { useAuthStore } from '../store/authStore';
 
 const container: Variants = {
@@ -20,8 +19,8 @@ const item: Variants = {
 };
 
 const HomePage = () => {
-  const { openAuthModal } = useUiStore();
   const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
 
   const { data: mostSearchedData, isLoading: mostSearchedLoading } = useQuery({
     queryKey: ['questions', 'most-searched'],
@@ -39,7 +38,7 @@ const HomePage = () => {
   const stats = statsData?.data;
 
   const handleAskQuestion = () => {
-    if (!isAuthenticated) { openAuthModal('login'); return; }
+    if (!isAuthenticated) { navigate('/login'); return; }
     window.location.href = '/questions/ask';
   };
 

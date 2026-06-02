@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -6,7 +7,6 @@ import toast from 'react-hot-toast';
 import { questionsApi } from '../../services/questions.service';
 import { answersApi } from '../../services/answers.service';
 import { useAuthStore } from '../../store/authStore';
-import { useUiStore } from '../../store/uiStore';
 
 interface VoteButtonsProps {
   targetId: string;
@@ -18,7 +18,7 @@ interface VoteButtonsProps {
 
 const VoteButtons = ({ targetId, targetType, upvotes, downvotes, voteScore }: VoteButtonsProps) => {
   const { isAuthenticated } = useAuthStore();
-  const { openAuthModal } = useUiStore();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [optimisticScore, setOptimisticScore] = useState<number | null>(null);
@@ -62,7 +62,7 @@ const VoteButtons = ({ targetId, targetType, upvotes, downvotes, voteScore }: Vo
   });
 
   const handleVote = (value: 1 | -1) => {
-    if (!isAuthenticated) { openAuthModal('login'); return; }
+    if (!isAuthenticated) { navigate('/login'); return; }
     vote(value);
   };
 

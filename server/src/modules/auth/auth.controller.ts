@@ -13,43 +13,57 @@ const COOKIE_OPTIONS = {
 };
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
-  const { username, email, password } = req.body;
+  try {
+    const { username, email, password } = req.body;
 
-  const existing = await User.findOne({ $or: [{ email }, { username }] });
-  if (existing) {
-    throw new AppError('Username or email already taken', 409);
+    console.log('[auth] signup payload:', { username, email });
+
+    const existing = await User.findOne({ $or: [{ email }, { username }] });
+    if (existing) {
+      throw new AppError('Username or email already taken', 409);
+    }
+
+    const passwordHash = await bcrypt.hash(password, 12);
+    const user = await User.create({ username, email, passwordHash });
+
+    const accessToken = generateAccessToken(user._id, user.role);
+    const refreshToken = generateRefreshToken(user._id);
+
+    res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
+
+    res.status(201).json(
+      successResponse(
+        { user, accessToken },
+        'Account created successfully'
+      )
+    );
+  } catch (err) {
+    console.error('[auth] signup error:', err);
+    throw err;
   }
-
-  const passwordHash = await bcrypt.hash(password, 12);
-  const user = await User.create({ username, email, passwordHash });
-
-  const accessToken = generateAccessToken(user._id, user.role);
-  const refreshToken = generateRefreshToken(user._id);
-
-  res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
-
-  res.status(201).json(
-    successResponse(
-      { user, accessToken },
-      'Account created successfully'
-    )
-  );
 };
 
 export const login = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email }).select('+passwordHash');
-  if (!user || !(await user.comparePassword(password))) {
-    throw new AppError('Invalid email or password', 401);
+    console.log('[auth] login attempt:', { email });
+
+    const user = await User.findOne({ email }).select('+passwordHash');
+    if (!user || !(await user.comparePassword(password))) {
+      throw new AppError('Invalid email or password', 401);
+    }
+
+    const accessToken = generateAccessToken(user._id, user.role);
+    const refreshToken = generateRefreshToken(user._id);
+
+    res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
+
+    res.json(successResponse({ user, accessToken }, 'Login successful'));
+  } catch (err) {
+    console.error('[auth] login error:', err);
+    throw err;
   }
-
-  const accessToken = generateAccessToken(user._id, user.role);
-  const refreshToken = generateRefreshToken(user._id);
-
-  res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
-
-  res.json(successResponse({ user, accessToken }, 'Login successful'));
 };
 
 export const logout = async (_req: Request, res: Response): Promise<void> => {

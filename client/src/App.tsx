@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PageLayout from './components/layout/PageLayout';
 import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 import QuestionsPage from './pages/QuestionsPage';
 import QuestionDetailPage from './pages/QuestionDetailPage';
 import AskQuestionPage from './pages/AskQuestionPage';
@@ -45,6 +46,7 @@ function App() {
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/categories/:slug" element={<CategoryDetailPage />} />
             <Route path="/community" element={<CommunityPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/profile/:username" element={<ProfilePage />} />
             <Route path="/admin" element={
               <ProtectedRoute><AdminDashboard /></ProtectedRoute>

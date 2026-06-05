@@ -9,6 +9,7 @@ import AskQuestionPage from './pages/AskQuestionPage';
 import SearchPage from './pages/SearchPage';
 import CategoriesPage from './pages/CategoriesPage';
 import CategoryDetailPage from './pages/CategoryDetailPage';
+import FAQPage from './pages/FAQPage';
 import CommunityPage from './pages/CommunityPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
@@ -43,6 +44,7 @@ function App() {
               <ProtectedRoute><AskQuestionPage /></ProtectedRoute>
             } />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/faq" element={<FAQPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/categories/:slug" element={<CategoryDetailPage />} />
             <Route path="/community" element={<CommunityPage />} />

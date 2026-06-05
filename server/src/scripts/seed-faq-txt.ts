@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
+import bcrypt from 'bcryptjs';
 import { connectDB } from '../config/db';
 import { Category } from '../models/Category';
 import { Question } from '../models/Question';
@@ -25,16 +26,34 @@ async function seed() {
   // Ensure admin user exists to author the seed data
   let admin = await User.findOne({ role: 'admin' });
   if (!admin) {
+    const hashedPassword = await bcrypt.hash('admin', 10);
     admin = await User.create({
       username: 'admin',
       email: 'admin@samagama.dev',
-      password: 'admin',
-      role: 'admin',
-      isVerified: true
+      passwordHash: hashedPassword,
+      role: 'admin'
     });
   }
 
   const categoriesMap = new Map<string, mongoose.Types.ObjectId>();
+
+  // Map categories to icons and colors
+  const categoryDetails: Record<number, { icon: string; color: string }> = {
+    1: { icon: 'info', color: '#6750a4' },
+    2: { icon: 'schedule', color: '#0891b2' },
+    3: { icon: 'description', color: '#ea580c' },
+    4: { icon: 'card_giftcard', color: '#8bc34a' },
+    5: { icon: 'engineering', color: '#e91e63' },
+    6: { icon: 'chat', color: '#2196f3' },
+    7: { icon: 'quiz', color: '#ff9800' },
+    8: { icon: 'card_membership', color: '#3f51b5' },
+    9: { icon: 'book', color: '#9c27b0' },
+    10: { icon: 'school', color: '#00bcd4' },
+    11: { icon: 'trending_up', color: '#4caf50' },
+    12: { icon: 'smart_toy', color: '#ffc107' },
+    13: { icon: 'subscriptions', color: '#673ab7' },
+    14: { icon: 'group', color: '#f44336' },
+  };
 
   console.log('Parsing Categories...');
   for (const line of lines) {
@@ -47,14 +66,18 @@ async function seed() {
       // Top level categories are 1 to 14 in this file.
       if (parseInt(catNumber) >= 1 && parseInt(catNumber) <= 14) {
         if (!categoriesMap.has(catNumber)) {
+          const catNum = parseInt(catNumber);
+          const details = categoryDetails[catNum] || { icon: 'category', color: '#494bd6' };
+          
           const category = await Category.create({
             name: catName,
             slug: catName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
             description: `FAQs for ${catName}`,
-            author: admin._id
+            icon: details.icon,
+            color: details.color
           });
           categoriesMap.set(catNumber, category._id as mongoose.Types.ObjectId);
-          console.log(`Created Category: ${catNumber}. ${catName}`);
+          console.log(`Created Category: ${catNumber}. ${catName} (icon: ${details.icon}, color: ${details.color})`);
         }
       }
     }

@@ -27,6 +27,7 @@ const Navbar = () => {
 
   const navLinks = [
     { to: '/', label: 'Explore' },
+    { to: '/faq', label: 'FAQ' },
     { to: '/categories', label: 'Categories' },
     { to: '/community', label: 'Community' },
   ];

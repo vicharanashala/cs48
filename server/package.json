@@ -9,6 +9,7 @@
     "start": "node dist/index.js",
     "lint": "eslint src --ext .ts",
     "seed": "ts-node src/scripts/seed.ts",
+    "seed:faq": "ts-node src/scripts/seed-faq-txt.ts",
     "seed:vins": "ts-node src/scripts/seed-vins-faqs.ts"
   },
   "dependencies": {

@@ -1,168 +1,96 @@
----
-name: Nexus Collective
-colors:
-  surface: '#f8f9fa'
-  surface-dim: '#d9dadb'
-  surface-bright: '#f8f9fa'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f3f4f5'
-  surface-container: '#edeeef'
-  surface-container-high: '#e7e8e9'
-  surface-container-highest: '#e1e3e4'
-  on-surface: '#191c1d'
-  on-surface-variant: '#5b413a'
-  inverse-surface: '#2e3132'
-  inverse-on-surface: '#f0f1f2'
-  outline: '#8f7069'
-  outline-variant: '#e3beb6'
-  surface-tint: '#b52701'
-  primary: '#b52701'
-  on-primary: '#ffffff'
-  primary-container: '#ff5c35'
-  on-primary-container: '#5a0e00'
-  inverse-primary: '#ffb4a3'
-  secondary: '#5f5e5e'
-  on-secondary: '#ffffff'
-  secondary-container: '#e5e2e1'
-  on-secondary-container: '#656464'
-  tertiary: '#494bd6'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#8386ff'
-  on-tertiary-container: '#0e009c'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#ffdad2'
-  primary-fixed-dim: '#ffb4a3'
-  on-primary-fixed: '#3d0700'
-  on-primary-fixed-variant: '#8a1c00'
-  secondary-fixed: '#e5e2e1'
-  secondary-fixed-dim: '#c8c6c5'
-  on-secondary-fixed: '#1c1b1b'
-  on-secondary-fixed-variant: '#474646'
-  tertiary-fixed: '#e1e0ff'
-  tertiary-fixed-dim: '#c0c1ff'
-  on-tertiary-fixed: '#07006c'
-  on-tertiary-fixed-variant: '#2f2ebe'
-  background: '#f8f9fa'
-  on-background: '#191c1d'
-  surface-variant: '#e1e3e4'
-typography:
-  display-lg:
-    fontFamily: Plus Jakarta Sans
-    fontSize: 56px
-    fontWeight: '700'
-    lineHeight: '1.1'
-    letterSpacing: -0.02em
-  headline-lg:
-    fontFamily: Plus Jakarta Sans
-    fontSize: 40px
-    fontWeight: '700'
-    lineHeight: '1.2'
-    letterSpacing: -0.01em
-  headline-lg-mobile:
-    fontFamily: Plus Jakarta Sans
-    fontSize: 32px
-    fontWeight: '700'
-    lineHeight: '1.2'
-  headline-md:
-    fontFamily: Plus Jakarta Sans
-    fontSize: 24px
-    fontWeight: '600'
-    lineHeight: '1.3'
-  body-lg:
-    fontFamily: Plus Jakarta Sans
-    fontSize: 18px
-    fontWeight: '400'
-    lineHeight: '1.6'
-  body-md:
-    fontFamily: Plus Jakarta Sans
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: '1.6'
-  label-md:
-    fontFamily: Plus Jakarta Sans
-    fontSize: 14px
-    fontWeight: '600'
-    lineHeight: '1.2'
-    letterSpacing: 0.05em
-rounded:
-  sm: 0.25rem
-  DEFAULT: 0.5rem
-  md: 0.75rem
-  lg: 1rem
-  xl: 1.5rem
-  full: 9999px
-spacing:
-  container-max: 1280px
-  gutter: 24px
-  margin-desktop: 64px
-  margin-mobile: 20px
-  section-gap: 120px
-  card-padding: 32px
+# Vicharanashala (विचारशाला) — FAQ Section Design Blueprint & Prompt Spec
+
+This document serves as a detailed prompt and design specification for creating and improving the **FAQ Section** of the Vicharanashala (विचारशाला) community-driven FAQ platform. It focuses exclusively on the FAQ layout, interactions, styling, and data presentation based on the organization's rules and structure in `FAQ.txt`.
+
 ---
 
-## Brand & Style
+## 🎨 1. Brand Theme & Aesthetics (Vicharanashala)
 
-This design system is built for a premium, crowd-sourced FAQ platform that prioritizes clarity, community-driven wisdom, and modern efficiency. The brand personality is **authoritative yet accessible**, bridging the gap between high-end agency aesthetics and functional SaaS utility.
+- **Organization Theme**: Applied AI, Open-Source Software Engineering, and Educational Design at the VLED Lab, IIT Ropar.
+- **Aesthetic Tone**: **Corporate Modern with Tactile Softness**. A balance of academic authority (IIT Ropar) and modern developer tool utility.
+- **Core Palette** (Aligned with Tailwind configurations):
+  - **Primary / Accent (Vibrant Coral)**: `#ff5c35` / `#b52701`. Used for focus outlines, active accordion states, and critical notification highlights.
+  - **Secondary (Muted Charcoal)**: `#5f5e5e` / `#656464`. Used for category labels, tags, and secondary action tools.
+  - **Tertiary (Intellectual Indigo)**: `#494bd6` / `#8386ff`. Represents official validation badges, search keyword highlights, and verified checkmarks.
+  - **Surfaces**: `#ffffff` cards sitting on a `#f8f9fa` neutral canvas.
+- **Typography**: **Plus Jakarta Sans**. Large headlines use tight tracking for an architectural geometric look; body copies have a high line-height (`1.6`) for clear reading of detailed FAQ text.
 
-The visual style is **Corporate Modern with Tactile Softness**. It utilizes high-end "Agency-style" layouts—characterized by generous negative space, sophisticated typography, and structured content blocks—and softens them with subtle shadows and pill-shaped accents. The goal is to evoke a sense of trust and "AI-adjacent" intelligence, where information is curated and presented with surgical precision on a warm, human-centric canvas.
+---
 
-## Colors
+## 📐 2. Layout Structure: The Double-Column Interactive Portal
 
-The palette is anchored by a high-energy **Vibrant Coral (#FF5C35)**, used strategically for primary CTAs and critical status indicators to drive user engagement. 
+Instead of a generic grid layout, the improved FAQ interface uses a responsive **Double-Column Portal** structured as follows:
 
-*   **Backgrounds:** A tiered system of whites and soft grays. The base canvas is pure white, while containers and secondary sections use a refined neutral (#F8F9FA) to create subtle depth.
-*   **Typography:** The primary text color is a deep, near-black (#121212) for maximum readability, with secondary text using a muted charcoal to establish hierarchy.
-*   **Accents:** A soft indigo/blue is used sparingly for secondary interactive elements or links, ensuring the Coral remains the dominant focal point.
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│  🔍 Search Bar: Input query or select quick tags                      │
+├──────────────────────────────────────┬─────────────────────────────────┤
+│                                      │                                 │
+│  COLUMN 1: Category Filter Panel     │  COLUMN 2: Collapsible Accordion│
+│                                      │  Feed (List of FAQs)            │
+│  [🔍 Category Search]                │                                 │
+│                                      │  ┌───────────────────────────┐  │
+│  ■ 1. About the Internship [12]      │  │ 📂 About the Internship   │  │
+│  ■ 2. Timing & Dates       [8]       │  │ Q: What is the VINS... ?  │  │
+│  ■ 3. NOC & Documentation  [15]      │  │ [Official Verification]   │  │
+│  ■ 4. Selection & Offer    [11]      │  │ [Markdown Answer Text]    │  │
+│  ■ 5. Work & Mentorship    [9]       │  │ ▲ 42 votes | 🔗 Share     │  │
+│  ■ 6. Rosetta Journal      [14]      │  └───────────────────────────┘  │
+│  ■ 7. ViBe LMS Platform    [26]      │  ┌───────────────────────────┐  │
+│  ■ 8. Spurti Points (SP)   [10]      │  │ Q: How long is the... ?   │  │
+│  ■ 9. Teams & Support      [15]      │  └───────────────────────────┘  │
+│                                      │                                 │
+└──────────────────────────────────────┴─────────────────────────────────┘
+```
 
-## Typography
+### 📁 A. Left Column: Sticky Category Navigation & Quick Filters
+- **Interactive Menu**: A sidebar layout that lists the 9 key organizational folders from `FAQ.txt`:
+  1. **About the Internship** (Icon: `info`, Color: `#494bd6`)
+  2. **Timing & Dates** (Icon: `schedule`, Color: `#b52701`)
+  3. **NOC & Documentation** (Icon: `description`, Color: `#ff5c35`)
+  4. **Selection & Offer Letter** (Icon: `verified`, Color: `#494bd6`)
+  5. **Work, Mentorship, & Projects** (Icon: `terminal`, Color: `#5f5e5e`)
+  6. **Rosetta Journal** (Icon: `menu_book`, Color: `#ff5c35`)
+  7. **ViBe LMS Platform** (Icon: `school`, Color: `#494bd6`)
+  8. **Spurti Points (SP)** (Icon: `military_tech`, Color: `#ba1a1a`)
+  9. **Teams & Support** (Icon: `groups`, Color: `#5f5e5e`)
+- **Visual Enhancements**:
+  - Color indicator matching each category's custom color theme.
+  - Denormalized question count indicators (e.g. `[15]`) to guide the user.
+  - Auto-suggest keyword tags above categories (e.g. `"WSL terminal"`, `"Zoom ID"`, `"NOD format"`, `"AI journals"`).
 
-The design system uses **Plus Jakarta Sans** across all levels to maintain a friendly yet professional geometric appearance. 
+### 💬 B. Right Column: Collapsible Accordion Feed
+- **Header Section**: Displays the active category name, description, and an "Expand All / Collapse All" toggle switch.
+- **FAQ Cards (Collapsible Accordions)**:
+  - **Closed State**: Clean white cards with `16px` border-radius (`rounded-xl`), ambient drop shadow (`box-shadow: shadow-ambient`), showing the question title, category badge, and upvote counts.
+  - **Open State**: Cards lift up slightly with hover transitions. The question text changes color to Coral (`#ff5c35`). The answer block slides open downward using smooth height animations.
+  - **Markdown Rendering**: Fully supports bold lists, hyperlinked resources, and styled blocks.
+  - **Vote & Share Utility Panel**: An inline footer in each card displaying upvote/downvote scores and a "Copy shareable anchor link" button that copies `#q-id` to the clipboard.
 
-The hierarchy is built on extreme contrast between display sizes and body text. Large headlines utilize tight letter-spacing and heavy weights to feel "architectural," while body copy is given ample line-height (1.6) to ensure long-form FAQ content remains legible and approachable. Labels use an all-caps treatment with slight tracking to clearly distinguish them from functional UI text.
+---
 
-## Layout & Spacing
+## 📢 3. Contextual Alert Banners & Interactive Helpers
 
-The layout follows a **Fixed Grid** philosophy for large screens, centering the content within a 1280px container to maintain a premium "editorial" feel. 
+To help candidates follow strict guidelines mentioned in the `FAQ.txt`, the FAQ cards render inline warning alerts:
 
-*   **Rhythm:** We use a strict 8px base unit. Section gaps are intentionally large (120px) to give content room to breathe, preventing information overload which is common in FAQ platforms.
-*   **Grid:** A 12-column grid is used for desktop. 
-    *   **Desktop:** 12 columns | 24px gutter | 64px margins.
-    *   **Tablet:** 8 columns | 16px gutter | 40px margins.
-    *   **Mobile:** 4 columns | 16px gutter | 20px margins.
-*   **Cards:** Internal padding within FAQ cards or "Book a Call" modules should never drop below 32px to maintain the spacious, high-end aesthetic.
+### ⚠️ A. The Attention-to-Detail Check Alert (Offer Letter Section)
+- For questions regarding offer letter acceptance, render a highlighted warning panel:
+  > **⚠️ CRITICAL RULES NOTICE:**
+  > Accepts must use the exact printed format. Paraphrases, missing dates, or missing clauses will result in **immediate and final withdrawal** of the offer.
+- **Interactive Checkbox Tool**: A simple text testing helper where a user can paste their acceptance statement to verify if it contains the exact required phrases before sending it.
 
-## Elevation & Depth
+### 🚫 B. Rosetta AI Detection Warning (Rosetta Section)
+- For Rosetta Journal FAQs, displays a styled dark callout box:
+  > **🚫 JOURNAL RULE NO. 1:**
+  > Write what is true in your own voice. Any entry detected as generated by ChatGPT or LLMs will invalidate your journal completion.
 
-Depth is achieved through **Soft Ambient Shadows** and **Tonal Layering**. 
+### 📋 C. NOC Verification Timer Alert (NOC Section)
+- Displays a visual roadmap showing the validation timeline (1 hour to 1 working day) and status states to prevent candidates from raising unnecessary support tickets.
 
-*   **Primary Surface:** Pure white cards sit on a light gray (#F1F3F5) background. 
-*   **Shadows:** We use a "Double Shadow" technique: a very soft, wide-spread ambient shadow (15% opacity, 40px blur) combined with a tighter, more saturated shadow near the base of the element. This creates a "looming" effect where cards feel like they are floating just above the surface.
-*   **Glassmorphism:** Navigation bars and dropdown menus use a backdrop blur (20px) with a semi-transparent white fill (80%) to maintain context of the content behind them while providing a clear interactive layer.
+---
 
-## Shapes
+## ⚡ 4. Micro-interactions & Frontend Motion System
 
-The shape language is defined by **Generous Roundedness**. 
-
-Standard UI elements like input fields and small buttons use a 0.5rem (8px) radius. However, primary cards, FAQ containers, and large CTA banners utilize "Extra-Large" rounding (1.5rem or 24px) to create a soft, inviting container for data-heavy information. Primary action buttons should be fully pill-shaped (rounded-full) to stand out against the more structured rectangular cards.
-
-## Components
-
-### Buttons
-*   **Primary:** Pill-shaped, #FF5C35 background, white text. Large horizontal padding.
-*   **Secondary:** Pill-shaped, transparent background with a subtle 1px border (#E9ECEF) or a soft gray fill.
-
-### FAQ Accordions
-*   White background with a subtle bottom border for separation.
-*   Icons should be minimalist "plus/minus" or "chevron" in the accent color to guide the eye.
-*   Active state should involve a slight lift (increased shadow) and the accent color applied to the question text.
-
-### Cards
-*   Use a "Feature Card" style: White background, 24px corner radius, and the dual-shadow depth mentioned in the Elevation section.
-*   Include a "Spotlight" variant for CTAs (like "Book a Call") which utilizes the primary accent color as a subtle background gradient or border glow.
-
-### Input Fields
-*   Soft gray backgrounds (#F1F3F5) with no borders in their default state.
-*   On focus, the border transitions to the primary coral color with a soft outer glow.
+- **Accordion Toggle**: Use Framer Motion to animate `height` and `opacity` transition with parameters `type: "spring", stiffness: 300, damping: 30` to avoid layout jumps.
+- **Search Text Highlighting**: Wrap matching query strings in `<mark class="bg-primary-fixed text-primary px-0.5 rounded font-semibold">` inside titles and answers.
+- **Category Transitions**: When a category filter is clicked, stagger the entry of newly filtered cards (`delayChildren: 0.08s`).
